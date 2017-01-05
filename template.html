@@ -1,0 +1,64 @@
+<script id="image-selecor-dialog-ex-template" type="text/x-jsrender">
+    <div class="modal fade" id="{{:type}}_selector_dlg_ex" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{:title}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a id="{{:type}}_selector_dlg_ex_select_tab" href="#{{:type}}_selector_dlg_ex_tab_1" data-toggle="tab" aria-expanded="true">{{:select_tab_title}}</a></li>
+                            <li class=""><a id="{{:type}}_selector_dlg_ex_upload_tab" href="#{{:type}}_selector_dlg_ex_tab_2" data-toggle="tab" aria-expanded="false">{{:upload_tab_title}}</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="{{:type}}_selector_dlg_ex_tab_1">
+                                <select id="{{:type}}_selector_dlg_ex_image_picker" name="{{:type}}_selector_dlg_ex_image_picker" class="image-picker show-labels show-html">
+                                </select>
+                                <div id="{{:type}}_selector_dlg_ex_pagination" class="right flickr"></div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="{{:type}}_selector_dlg_ex_tab_2">
+                                <div class="row">
+                                    {{for tmpl="#upload_image_view_template" /}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{:cancel_btn_title}}</button>
+                    <button type="button" class="btn btn-primary" id="{{:type}}_selector_dlg_ex_confirm">{{:select_btn_title}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="upload_image_view_template" type="text/x-jsrender">
+    <form id="{{:type}}_upload_form" class="form-horizontal" method="post" accept-charset="utf-8" action="{{:upload_url}}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="{{:type}}_upload_file" class="col-sm-2 control-label">上传文件</label>
+            <div class="col-sm-9">
+                <input id="{{:type}}_upload_file" type="file" name="upload_file" class="file_input"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{:type}}_selector_dlg_ex_url" class="col-sm-2 control-label">跳转链接</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="{{:type}}_url" name="url" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{:type}}_selector_dlg_ex_descr" class="col-sm-2 control-label">图片描述</label>
+            <div class="col-sm-9">
+                <textarea class="form-control" rows="3" id="{{:type}}_descr" name="descr"></textarea>
+            </div>
+        </div>
+    </form>
+</script>
