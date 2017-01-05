@@ -1,8 +1,6 @@
 (function ($) {
     var sanitized_options = function(opts) {
         var default_options = {
-            selector_type: 'image',
-            image_type: 'article',
             selected_callback: void 0
         };
         return $.extend({}, default_options, opts);
@@ -18,7 +16,7 @@
             return this.each(function() {
                 var self = this;
                 
-                var selector_type = opts.selector_type + '_' + $(self).attr('id');
+                var selector_type = 'image_' + $(self).attr('id');
                 
                 var upload_form_sel = '#' + selector_type + '_upload_form';
                 var upload_file_sel = '#' + selector_type + '_upload_file';
@@ -43,7 +41,7 @@
                         return (
                             $.ajax({
                                 type: 'POST',
-                                url: '/api/admin/image/upload_image/' + opts.image_type,
+                                url: '/api/admin/image/upload_image/article',
                                 data: new FormData($(upload_form_sel)[0]),
                                 processData: false,  // 告诉jQuery不要去处理发送的数据
                                 contentType: false   // 告诉jQuery不要去设置Content-Type请求头
@@ -67,7 +65,7 @@
                         return (
                             $.ajax({
                                 type: 'GET',
-                                url: '/api/admin/image/get_image_count/' + opts.image_type
+                                url: '/api/admin/image/get_image_count/article'
                             }).then(function (data) {
                                 var obj = JSON.parse(data);
                                 return obj.count;
@@ -78,7 +76,7 @@
                         return (
                             $.ajax({
                                 type: 'POST',
-                                url: '/api/admin/image/get_image_list/' + opts.image_type,
+                                url: '/api/admin/image/get_image_list/article',
                                 data: {
                                     offset: offset,
                                     limit: limit,
@@ -88,8 +86,8 @@
                                 var obj = JSON.parse(data);
                                 var array = [];
                                 $.each(obj.image_list, function (idx, item) {
-                                    var small_img_src = '/uploads/images/' + opts.image_type + '/' + item.path + '100px/' + item.file_name;
-                                    var big_img_src = '/uploads/images/' + opts.image_type + '/' + item.path + '400px/' + item.file_name;
+                                    var small_img_src = '/uploads/images/article' + '/' + item.path + '100px/' + item.file_name;
+                                    var big_img_src = '/uploads/images/article' + '/' + item.path + '400px/' + item.file_name;
                                     var value = {id: item.id, url: big_img_src, file_name: item.file_name};
                                     array.push({
                                         imgSrc: small_img_src,
