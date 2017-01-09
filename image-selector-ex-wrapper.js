@@ -3,21 +3,16 @@
         var default_options = {
             selected_callback: void 0
         };
-        return $.extend({}, default_options, opts);
+        return $.extend({}, default_options, opts == null ? {} : opts);
     };
 
     $.fn.extend({
         imageSelectorWrapper: function(opts) {
-            if (opts == null) {
-                opts = {};
-            }
             opts = sanitized_options(opts);
-
             return this.each(function() {
                 var self = this;
                 
                 var selector_type = 'image_' + $(self).attr('id');
-                
                 var upload_form_sel = '#' + selector_type + '_upload_form';
                 var upload_file_sel = '#' + selector_type + '_upload_file';
                 var url_sel = '#' + selector_type + '_url';
@@ -43,16 +38,14 @@
                                 type: 'POST',
                                 url: '/api/admin/image/upload_image/article',
                                 data: new FormData($(upload_form_sel)[0]),
+                                dataType: 'json',
                                 processData: false,  // 告诉jQuery不要去处理发送的数据
                                 contentType: false   // 告诉jQuery不要去设置Content-Type请求头
                             }).then(function (data) {
                                 $(upload_file_sel).fileinput('reset');
-                                $(url_sel).val('');
-                                $(desc_sel).val('');
                                 return data;
                             }).done(function (data) {
-                                var obj = JSON.parse(data);
-                                if (obj['error_code'] != 0) {
+                                if (data['error_code'] != 0) {
                                     alert('上传失败');
                                 } else {
                                     alert('上传成功');
@@ -65,10 +58,10 @@
                         return (
                             $.ajax({
                                 type: 'GET',
-                                url: '/api/admin/image/get_image_count/article'
+                                url: '/api/admin/image/get_image_count/article',
+                                dataType: 'json',
                             }).then(function (data) {
-                                var obj = JSON.parse(data);
-                                return obj.count;
+                                return data.count;
                             })
                         );
                     },
@@ -77,13 +70,13 @@
                             $.ajax({
                                 type: 'POST',
                                 url: '/api/admin/image/get_image_list/article',
+                                dataType: 'json',
                                 data: {
                                     offset: offset,
                                     limit: limit,
                                     order: ["id DESC"]
                                 }
-                            }).then(function(data) {
-                                var obj = JSON.parse(data);
+                            }).then(function(obj) {
                                 var array = [];
                                 $.each(obj.image_list, function (idx, item) {
                                     var small_img_src = '/uploads/images/article' + '/' + item.path + '100px/' + item.file_name;

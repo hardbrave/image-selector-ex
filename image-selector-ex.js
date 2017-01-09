@@ -1,12 +1,6 @@
 (function ($) {
-    var sanitized_options;
-    var SelectorDialogEx;
-
     $.fn.extend({
         imageSelectorEx: function(opts) {
-            if (opts == null) {
-                opts = {};
-            }
             return this.each(function() {
                 $(this).data("modal", new SelectorDialogEx(sanitized_options(opts)));
             });
@@ -16,10 +10,9 @@
             $(this).data("modal").show();
         }
     });
-
-    sanitized_options = function(opts) {
-        var default_options;
-        default_options = {
+    
+    var sanitized_options = function(opts) {
+        var default_options= {
             type: 'image',
             title: '传说中的图片选择器',
             select_tab_title: '选择图片',
@@ -36,10 +29,10 @@
             selected_callback: void 0,          // 确认选择后的回调函数
             initialized_callback: void 0        // 初始化后的回调函数
         };
-        return $.extend(default_options, opts);
+        return $.extend({}, default_options, opts == null ? {} : opts);
     };
 
-    SelectorDialogEx = (function () {
+    var SelectorDialogEx = (function () {
         function SelectorDialogEx(opts) {
             this.opts = opts;
             this.dialog_sel = '#' + opts.type +'_selector_dlg_ex';
